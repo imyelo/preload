@@ -15,18 +15,32 @@ define(function (require, exports, module) {
   return function (preload) {
     describe('preload', function () {
       describe('img', function () {
+        var url = './imgs/github.png';
         var cb = function (src, img) {
           console.log('called!');
-          it('should trigger after image loaded', function () {
-            expect(toDataURL(img).length > 10).to.be.true;
-          });
+          return img;
         };
         var spy = sinon.spy(cb);
         var server = sinon.fakeServer.create();
-        $('<img data-preload="./imgs/github.png" class="preload-img" />').appendTo('body');
+        var $img = $('<img data-preload="' + url + '" class="preload-img" />').appendTo('body');
+        describe('before', function () {
+          it('should keep the src attr empty before image loaded', function () {
+            expect($img.attr('src')).to.be.empty;
+          });
+        });
         preload.img(spy);
-        it('should trigger the "after" method ', function () {
-          expect(spy.calledOnce).to.be.true;
+        describe('after', function () {
+          it('should trigger the "after" method ', function () {
+            expect(spy.calledOnce).to.be.true;
+          });
+          it('should trigger after image loaded', function () {
+            var img = spy.returnValues[0];
+            expect(toDataURL(img).length > 10).to.be.true;
+          });
+          it('should change the src attr after image loaded', function () {
+            var img = spy.returnValues[0];
+            expect(img.attributes.src.value).to.be.equal(url);
+          });
         });
       });
     });
