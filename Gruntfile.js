@@ -1,6 +1,4 @@
 module.exports = function (grunt) {
-  var config = grunt.file.readJSON('config.json');
-
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     mocha: {
