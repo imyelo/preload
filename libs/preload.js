@@ -10,21 +10,25 @@ define(function (require, exports, module) {
         if ((src = $self.data('preload'))) {
           img = new Image();
           img.src = src;
-          img.onload = onload.apply(this, arguments);
+          img.onload = onload.call(self, src);
         }
       });
     };
   };
 
-  var img = _register('.preload-img', function (after) {
-    $(this).attr('src', src);
-    after.call(this);
-  });
+  var img = function (after) {
+    _register('.preload-img', function (src) {
+      $(this).attr('src', src);
+      after.call(this);
+    })();
+  };
 
-  var background = _register('.preload-background', function (after) {
-    $(this).css('background-image', 'url(' + src + ')');
-    after.call(this);
-  });
+  var background = function (after) {
+    _register('.preload-background', function (src) {
+      $(this).css('background-image', 'url(' + src + ')');
+      after.call(this);
+    })();
+  };
 
 
   exports.img = img;
