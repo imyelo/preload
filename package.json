@@ -1,0 +1,13 @@
+{
+  "name": "preload",
+  "version": "0.1.0",
+  "author": "yelo",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-mocha": "~0.4.1",
+    "grunt-contrib-watch": "~0.5.3"
+  },
+  "scripts": {
+    "test": "grunt test"
+  }
+}
