@@ -3,8 +3,8 @@ define(function (require, exports, module) {
     var canvas, context, result;
     canvas = document.createElement("canvas");
     context = canvas.getContext("2d");
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = width || elem.width || 0;
+    canvas.height = height || elem.height || 0;
     context.drawImage(elem, 0, 0, width, height);
     result = canvas.toDataURL();
     canvas = null;
@@ -18,7 +18,7 @@ define(function (require, exports, module) {
         var cb = function (src, img) {
           console.log('called!');
           it('should trigger after image loaded', function () {
-            expect(toDataURL(img, 27, 48).length > 10).to.be.true;
+            expect(toDataURL(img).length > 10).to.be.true;
           });
         };
         var spy = sinon.spy(cb);
