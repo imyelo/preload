@@ -15,6 +15,8 @@
     this[name] = definition();
   }
 })('preload-image', function () {
+  var _helper = {};
+  _helper.noop = function () {};
   var _register = function (selector, onload) {
     return function () {
       var imgs = [];
@@ -33,6 +35,7 @@
   };
 
   var img = function (after) {
+    after = typeof after === 'undefined' ? _helper.noop : after;
     _register('.preload-img', function (src, img) {
       $(this).attr('src', src);
       after.call(this, src, img);
@@ -40,6 +43,7 @@
   };
 
   var background = function (after) {
+    after = typeof after === 'undefined' ? _helper.noop : after;
     _register('.preload-background', function (src, img) {
       $(this).css('background-image', 'url(' + src + ')');
       after.call(this, src, img);
