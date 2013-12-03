@@ -28,7 +28,9 @@
         if ((src = $self.data('preload'))) {
           img = new Image();
           img.src = src;
-          img.onload = onload.call(self, src, img);
+          img.onload = function () {
+            onload.call(self, src, img);
+          };
         }
       });
     };
