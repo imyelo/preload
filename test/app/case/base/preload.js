@@ -28,18 +28,27 @@ define(function (require, exports, module) {
             expect($img.attr('src')).to.be.empty;
           });
         });
-        preload.img(spy);
         describe('after', function () {
-          it('should trigger the "after" method ', function () {
-            expect(spy.calledOnce).to.be.true;
+          it('should trigger the "after" method ', function (done) {
+            setTimeout(function () {
+              preload.img(spy);
+              expect(spy.calledOnce).to.be.true;
+              done();
+            }, 0);
           });
-          it('should trigger after image loaded', function () {
-            var img = spy.returnValues[0];
-            expect(toDataURL(img).length > 10).to.be.true;
+          it('should trigger after image loaded', function (done) {
+            setTimeout(function () {
+              var img = spy.returnValues[0];
+              expect(toDataURL(img).length > 10).to.be.true;
+              done();
+            }, 0);
           });
-          it('should change the src attr after image loaded', function () {
-            var img = spy.returnValues[0];
-            expect(img.attributes.src.value).to.be.equal(url);
+          it('should change the src attr after image loaded', function (done) {
+            setTimeout(function () {
+              var img = spy.returnValues[0];
+              expect(img.attributes.src.value).to.be.equal(url);
+              done();
+            }, 0);
           });
         });
       });

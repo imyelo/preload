@@ -1,4 +1,20 @@
-define(function (require, exports, module) {
+;(function (name, definition) {
+  // this is considered "safe":
+  var hasDefine = typeof define === 'function',
+    // hasDefine = typeof define === 'function',
+    hasExports = typeof module !== 'undefined' && module.exports;
+
+  if (hasDefine) {
+    // AMD Module or CMD Module
+    define(definition);
+  } else if (hasExports) {
+    // Node.js Module
+    module.exports = definition('preload-image');
+  } else {
+    // Assign to common namespaces or simply the global object (window)
+    this[name] = definition();
+  }
+})('preload-image', function () {
   var _register = function (selector, onload) {
     return function () {
       var imgs = [];
@@ -30,7 +46,8 @@ define(function (require, exports, module) {
     })();
   };
 
-
-  exports.img = img;
-  exports.background = background;
+  return {
+    img: img,
+    background: background
+  };
 });
