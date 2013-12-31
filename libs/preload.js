@@ -29,35 +29,40 @@
     return this;
   };
 
-  if (typeof jQuery !== 'undefined') {
-    (function ($) {
-      $.fn.extend({
-        preloadImage: function (onload) {
-          var self = this;
-          var i, len;
-          var url;
-          for (i = 0, len = self.length; i < len; i++) {
-            (function (elem) {
-              if ((url = elem.getAttribute('data-preload'))) {
-                PreloadImage(url, function () {
-                  onload.call(elem);
-                });
-              }
-            })(self[i]);
-          }
-        },
-        preloadSrc: function (onload) {
-          $(this).preloadImage(function () {
-            this.src = this.getAttribute('data-preload');
-          });
-        },
-        preloadBackground: function (onload) {
-          $(this).preloadImage(function () {
-            this.style.backgroundImage = 'url(' + this.getAttribute('data-preload') + ')';
-          });
+  var jQueryFactory = (function ($) {
+    $.extend($.fn, {
+      preloadImage: function (onload) {
+        var self = this;
+        var i, len;
+        var url;
+        for (i = 0, len = self.length; i < len; i++) {
+          (function (elem) {
+            if ((url = elem.getAttribute('data-preload'))) {
+              PreloadImage(url, function () {
+                onload.call(elem);
+              });
+            }
+          })(self[i]);
         }
-      });
-    })(jQuery);
+      },
+      preloadSrc: function (onload) {
+        $(this).preloadImage(function () {
+          this.src = this.getAttribute('data-preload');
+          onload.call(this);
+        });
+      },
+      preloadBackground: function (onload) {
+        $(this).preloadImage(function () {
+          this.style.backgroundImage = 'url(' + this.getAttribute('data-preload') + ')';
+          onload.call(this);
+        });
+      }
+    });
+  });
+  if (typeof jQuery !== 'undefined') {
+    jQueryFactory(jQuery);
+  } else if (typeof $ !== 'undefined') {
+    jQueryFactory($);
   }
 
   return PreloadImage;
