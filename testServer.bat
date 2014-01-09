@@ -1,1 +1,0 @@
-start node ./test/server/app

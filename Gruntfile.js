@@ -5,13 +5,8 @@ module.exports = function (grunt) {
       all: ['test/index.html']
     },
     command: {
-      testBat: {
-        type: 'bat',
-        cmd: 'testServer.bat'
-      },
-      testSh: {
-        type: 'shell',
-        cmd: './testServer.sh'
+      test: {
+        cmd: 'node ./test/server/app'
       }
     },
     wait_server: {
@@ -39,6 +34,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-commands');
 
   grunt.registerTask('_dev', ['mocha']);
-  grunt.registerTask('test', ['command:testBat', 'command:testSh', 'wait_server:test', 'mocha']);
-  grunt.registerTask('dev', ['command:testBat', 'command:testSh', 'wait_server:test', 'watch']);
+  grunt.registerTask('test', ['command:test', 'wait_server:test', 'mocha']);
+  grunt.registerTask('dev', ['command:test', 'wait_server:test', 'watch']);
 };
