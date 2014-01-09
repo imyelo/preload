@@ -4,6 +4,23 @@ module.exports = function (grunt) {
     mocha: {
       all: ['test/index.html']
     },
+    command: {
+      testBat: {
+        type: 'bat',
+        cmd: 'testServer.bat'
+      },
+      testSh: {
+        type: 'shell',
+        cmd: './testServer.sh'
+      }
+    },
+    wait_server: {
+      test: {
+        options: {
+          url: 'http://localhost:3000'
+        }
+      }
+    },
     watch: {
       libs: {
         files: 'libs/**/**',
@@ -17,9 +34,11 @@ module.exports = function (grunt) {
   });
 
   grunt.loadNpmTasks('grunt-mocha');
+  grunt.loadNpmTasks('grunt-wait-server');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-commands');
 
-  grunt.registerTask('_dev', ['test']);
-  grunt.registerTask('test', ['mocha']);
-  grunt.registerTask('dev', ['watch']);
+  grunt.registerTask('_dev', ['mocha']);
+  grunt.registerTask('test', ['command:testBat', 'command:testSh', 'wait_server:test', 'mocha']);
+  grunt.registerTask('dev', ['command:testBat', 'command:testSh', 'wait_server:test', 'watch']);
 };
